@@ -17,32 +17,40 @@ const main = async () => {
         const lugar = await leerInput("Ingrese el lugar: ");
 
         const lugares = await busqueda.buscarLugar(lugar);
-       
 
         //Seleccionar lugar
         const id = await listadoLugares(lugares);
-        
 
         //Lugar seleccionado
-        const lugarSeleccionado = lugares.find(lugar => lugar.id = id);
-
-       
+        const lugarSeleccionado = lugares.find((lugar) => (lugar.id = id));
+        if (lugarSeleccionado.id == "0") {
+          continue;
+        }
+        busqueda.agregarLugar(lugarSeleccionado.nombre);
         //Buscar clima
 
-        const clima = await busqueda.buscarTemp(lugarSeleccionado.lat,lugarSeleccionado.lng);
+        const clima = await busqueda.buscarTemp(
+          lugarSeleccionado.lat,
+          lugarSeleccionado.lng
+        );
 
         //Mostar resultados
 
         console.log("\nInformación de la ciudad:".green);
-        console.log("Ciudad: ".red,lugarSeleccionado.nombre);
-        console.log("Latitud: ".red,lugarSeleccionado.lat);
-        console.log("Longitud: ".red,lugarSeleccionado.lng);
-        console.log("Temperatura minima: ".red,clima.Min);
-        console.log("Temperatura maxima: ".red,clima.Max);
-        console.log("Temperatura: ".red,clima.Temp);
-        console.log("Descripción: ".red,clima.Desc);
-        
-        case 2:
+        console.log("Ciudad: ".red, lugarSeleccionado.nombre);
+        console.log("Latitud: ".red, lugarSeleccionado.lat);
+        console.log("Longitud: ".red, lugarSeleccionado.lng);
+        console.log("Temperatura minima: ".red, clima.Min);
+        console.log("Temperatura maxima: ".red, clima.Max);
+        console.log("Temperatura: ".red, clima.Temp);
+        console.log("Descripción: ".red, clima.Desc);
+        break;
+      case 2:
+        busqueda.historialCapitalizado.forEach((lugar, i) => {
+          const idx = `${i + 1}`.green;
+          console.log(`${idx}. ${lugar}`);
+        });
+        break;
     }
 
     if (opt != 0) await pausa();
